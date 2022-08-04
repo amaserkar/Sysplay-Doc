@@ -1,0 +1,35 @@
+A Device Driver is a software that controls a hardware device.
+Device Drivers provide an abstraction of a hardware device, so that
+the OS/program can access the device without knowing its precise details.
+
+A Device Controller is the interface between a device and its device driver. It is a hardware device.
+Device controllers may either be connected to the CPU via buses, or embedded along with the CPU (microcontroller).
+
+A Bus Driver is a driver for a bus communication protocol (I2C/SPI/USB/etc).
+A device controller requires a bus driver to communicate with the device and CPU.
+Bus Drivers have 2 Parts: a device-controller specific part, and an abstraction layer (core).
+
+Device Drivers have 2 parts: Device-specific and OS-specific.
+They provide a System Call Interface to the user (boundary b/w user-space and kernel-space).
+
+Drivers are of 5 types (verticals): 
+	- Process (CPU)
+	- Memory (primary memory)
+	- Network (ethernet/wifi)
+	- Storage (secondary memory)
+	- Character (byte-oriented devices)
+
+Network, Storage, and Character verticals are considered device drivers (but Process and Memory verticals are not).
+
+Network verticals have 2 parts:
+	- Network Protocol Stack
+	- Network Interface Card (drivers for network; LAN/wifi/etc)
+
+Storage verticals have 2 parts:
+	- File System Drivers (for decoding formats)
+	- Block Device Drivers (drivers for storage protocols; SCSI/IDE/etc)
+
+Character verticals are for character devices, which handle a stream of data (byte-oriented).
+They have many sub-types
+
+Some drivers fall under multiple verticals. Eg USB bus driver can be used for Network, Storage, or I/O devices.
