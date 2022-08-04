@@ -1,0 +1,34 @@
+##Kernel Message Logging
+printk prints to a file (such as /var/log/syslog) and not onto the terminal.
+The constants KERN_ALERT, KERN_INFO, etc are log levels, used to define the 
+importance or priority of a printk message. There are 8 such levels.
+The messages are also stored in different log files based on this log level.
+They can be printed onto the standard output using the utility dmesg.
+
+##Kernel C
+The standard C language with some gcc extensions forms the 'Kernel C'.
+The use of Kernel C means the gcc compiler is best for the Linux kernel.
+
+Kernel C may not include header files and standard libraries, but the required
+functions are included in the kernel source in various directories.
+Hence the kernel source headers are required for building modules.
+
+##Writing Modules (resource: https://www.youtube.com/watch?v=Zn8mEZXr6nE)
+
+If a constructor function is not provided, the module still gets loaded by insmod.
+But if a destructor is not provided, the module cannot be unloaded by rmmod.
+The only way to remove it is by rebooting the computer.
+
+Multiple .c files can be used to build a single module, by 
+specifying the dependencies in the makefile as follows.
+<modulename>-objs := <prerequisite .o files>
+
+Without a MODULE_LICENSE() specified in the driver, the kernel will mark 
+it as unlicensed. This may cause the loss of certain functionalities.
+
+The __init keyword specifies that the function will be used only during 
+initialisation. This frees up some space in the RAM. The __initdata keyword
+is similarly used for data structures.
+If a function marked with __init is used in the module_exit() function, the function
+will not be available when the module is unloaded, and the kernel will crash.
+Similarly the __exit keyword specifies the exit section of the module.
