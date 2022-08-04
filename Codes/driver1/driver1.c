@@ -6,7 +6,7 @@ Our First Driver
 #include <linux/init.h> // contains macros for module initialisation
 #include <linux/module.h> // includes the module related data structures
 
-int driver1_init(void)// Constructor - initialisation
+int __init driver1_init(void)// Constructor - initialisation
 { // called during loading of module
   printk(KERN_ALERT "Hello. Inside the %s function\n",__FUNCTION__);
   //printk prints to /var/log/syslog
