@@ -2,6 +2,5 @@
 Linux Device Drivers
 Commented Codes and Notes
 
-##Resources
 https://sysplay.github.io/books/LinuxDrivers/book/index.html
 youtu.be/Zn8mEZXr6nE
