@@ -1,0 +1,29 @@
+Device Drivers can be loaded/unloaded into the kernel at runtime.
+This is called dynamic loading, and dynamically loadable drivers are called "modules".
+
+In Linux, modules are built into a .ko file (kernel object).
+Pre-built modules are stored in /lib/modules/<kernelversion>/kernel
+The kernel version can be found by the command uname -r
+
+lsmod, insmod, rmmod functions are used to list, load, and unload modules.
+
+Modules can be written in a .c file, and are compiled using a makefile.
+Modules are written in kernel C, and they follow object-oriented concepts.
+
+A module consists of constructor and destructor functions,
+which are called during loading and unloading respectively.
+They are specified as the module_init and module_exit functions (macros).
+A Destructor function is used for cleanup - to deallocate memory used by the object(module).
+
+To compile a module, the kernel build system contains a makefile which invokes the makefile
+of the module program, which then builds the module.
+The kernel makefile is located in lib/modules/<kernelversion>/build, and it can be invoked using
+the shell command >>make -C lib/modules/$(uname -r)/build M=$PWD modules
+where PWD is the directory in which the module program and makefile are stored.
+Here, the kernel build directory is /lib/modules/<kernelversion>/build
+
+Running the make command creates the .ko file of the module,
+which can then be loaded onto the kernel.
+
+Documentation for building modules:
+https://www.kernel.org/doc/html/latest/kbuild/modules.html
