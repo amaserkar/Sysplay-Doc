@@ -1,0 +1,24 @@
+-- Auto Creation of Device Files
+
+Registration of device files with major and minor numbers does not create them in /dev directory.
+The kernel only populates the device class and device info in the corresponding /sys/<subdirectory>.
+This information can be used by the udev daemon to automatically create and configure the device files.
+(daemon: background process not under user's control)
+
+class_create, device_create, device_destroy, and class_destroy functions are used to populate the info.
+udev then creates the device files in the /dev directory.
+Loops can be used for device drivers with multiple minor numbers in use.
+
+-- Linking Device File Operations with Device Driver Functions
+
+File operations are similar for regular files and device files (for the user).
+In the kernel space, the Virtual File System decodes the file type and sends it to the appropriate channel.
+
+For the VFS to pass device file operations to the device driver, they should be registered.
+ 1. Specify the operations in the structure file_operations.
+ 2. Initialise the character device structure cdev, with cdev_init().
+ 3. Register with the VFS by calling cdev_add().
+
+The file_operations structure is defined in <linux/fs.h>, and the cdev functions in <linux/cdev.h>
+
+The actual File Operation functions have to be defined in the device driver code.
