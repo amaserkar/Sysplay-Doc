@@ -1,0 +1,30 @@
+Character drivers drive byte-oriented devices, like io-devices/camera/speaker/etc.
+They involve a stream of bytes (no random access).
+
+In Linux, everything is treated as a file (even devices are abstracted as files).
+Each character device has an associated device file (CDF).
+/dev is an in-RAM file system directory (destroyed on reboot), which contains all the device files.
+
+For a Device to be accessed, applications interact with the CDF.
+The CDF is linked to the device driver via the Virtual File System.
+The driver has a low level interface with the device.
+
+These 4 entities exist independently, and need to be connected explicitly.
+(open system call on CDF, registrations by driver, and device-specific low-level ops)
+
+File operations on a CDF (like read,write,etc) may have different results compared to normal files.
+
+Applications identify the CDF by name, while the driver identifies it by a number.
+All device files are identifed by a major and minor number pair, which can be seen using $(ls -l /dev).
+Major number identifies the device driver and Minor number identifies the instance of that driver.
+eg. sda1, sda 2, sda3, etc. are partitions (instances) of the sda hard disk (device driver).
+dev_t is a data structure that stores the major and minor numbers of a device.
+The header <linux/kdev_t.h> contains related macros like MKDEV(), MINOR(), and MAJOR().
+
+To connect device file to device driver:-
+ 1. Register the device files using either register_chrdev_region() or alloc_chrdev_region().
+ 2. Link the device file operations to the respective device driver functions.
+
+proc/devices lists all the device drivers that are currently loaded in the system, along with their major number.
+
+mknod command can be used to manually create an entry (device file) in the /dev directory.
