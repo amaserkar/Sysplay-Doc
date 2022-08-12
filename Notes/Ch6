@@ -1,0 +1,28 @@
+For open and close functions, the return value is 0 for success.
+For read and write functions, the return value is no. of bytes read/written.
+All 4 return negative values for errors.
+
+When user causes a read system call on the device file, the Virtual File System
+decodes the <major,minor> pair, and redirects to the driver's read() function.
+The return value of driver's read() should be the number of bytes read.
+If the return value is zero, nothing will be read (even if input is given).
+
+Data being read from a file is stored into the buffer, and the length of this data should be the return value.
+If return value is positive, but nothing is stored in the buffer, junk value will be read.
+
+When a write system call occurs, the driver's write() function is called.
+The user provides the data (stored in the buffer), and the no. of bytes to be written.
+Data is then written into a file, and the number of bytes written should be returned for success.
+
+The buffer can be accessed as an array. Values in the buffer can be copied to global variables for later use.
+
+Copying from kernel space to user space and vice-versa should not be done directly.
+If an invalid address block is accessed, it can crash the kernel.
+Use the functions copy_to_user() and copy_from_user(), which are defined in the <asm/uaccess.h> file.
+These functions use the access_ok() function to check whether the address block is entirely within userspace.
+They return an error if addresses are inaccessible (in kernelspace), or they return zero on success.
+This allows us to use EFAULT (bad address) error instead of crashing the kernel.
+
+Note: In the read function, return value zero denotes end of file. If the return value is not zero, the
+read command will keep executing infinitely. For the function to terminate, we need to set the return value to
+zero after our desired operation is performed. This can be done by utilising the offset pointer (4th parameter).
