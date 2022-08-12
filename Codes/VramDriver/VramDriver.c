@@ -24,9 +24,7 @@ the APIs ioread8() and iowrite8() are used instead.
 
 #define VRAM_BASE 0x000A0000  // Start of Video RAM device address space
 #define VRAM_SIZE 0x00020000  // Size of the same
-
 static void __iomem *vram; // Pointer to a virtual io memory address
-
 static dev_t first; // The first device number <major,minor>
 static struct cdev c_dev; // Stores the character device attributes
 static struct class *cl; // Device Class
