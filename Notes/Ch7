@@ -1,0 +1,21 @@
+The CPU address space is allocated to both physical memory and devices (registers and memories).
+This memory map contains memory/RAM regions and device regions in an interleaved arrangement.
+The addresses in the device regions of the map are called bus addresses,
+as the devices are always accessed via architecture-specific buses (eg. PCI bus).
+
+/proc/iomem contains the memory map of the system.
+
+In Linux, the architecture-specific addresses are not accessible to the kernel.
+They are mapped to virtual addresses, which are architecture-independent (generic).
+This is useful, as it allows us to write drivers independent of buses and architecture.
+
+Memory-mapped IO is the accessing of device bus addresses by mapping them to a virtual address space.
+Device bus addresses are mapped and unmapped via the APIs ioremap() and iounmap() from <asm/io.h>
+
+The address pointers should not be dereferenced directly. Instead, read and write operations are
+performed using APIs such as ioread8() and iowrite8(). Offsets are added to the virtual address
+pointers to get the required location, which is then passed as parameter to the functions.
+
+Offsets for device registers/memory can be obtained from the datasheet (hardware manual).
+
+Note: xxd command can be used instead of cat to read hexadecimal files.
