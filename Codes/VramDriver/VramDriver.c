@@ -3,10 +3,6 @@ Sysplay Doc Ex 3
 Video RAM Driver
 
 Utilises memory-mapped IO to read and write into the VRAM address space.
-Virtual addresses are allocated to the device.
-Pointers to these addresses should not be directly dereferenced;
-the APIs ioread8() and iowrite8() are used instead.
-
 */
 
 #include <linux/init.h>   // contains macros for module initialisation
