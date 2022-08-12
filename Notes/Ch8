@@ -1,0 +1,19 @@
+x86 architectures have a mechanism of accessing hardware without memory-mapping.
+Such devices are accessed directly, through special (16-bit) addresses called ports.
+This additional mechanism requires its own assembly language instructions.
+Their C-language counterparts are defined in <asm/io.h> as follows:
+u8 inb(), u16 inw(), u32 inl(), void outb(), void outw(), void outl()
+(for reading/writing 8-bit, 16-bit, and 32-bit data respectively).
+
+The devices being accessed through the ports are called IO-mapped devices.
+/proc/ioports contains their names and port addresses (standard in x86).
+eg. Serial port (0x3f8 to 0x3ff) may be connected to serial device controller UART.
+
+The datasheet gives all relevant information for writing the driver.
+Usually, register offsets are given, which need to be added to the base address
+of the device (architecture-specific) to get the actual register addresses.
+Macros for register offsets should be used. (eg. serial offsets in <linux/serial_reg.h>)
+
+Bits can be set using <bit>|=1 and cleared using <bit>&=0 operations.
+
+The APIs request_region() and release_region() should be used while accessing the IO ports.
