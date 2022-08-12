@@ -31,12 +31,12 @@ static int my_close(struct inode *i, struct file *f)
   return 0;
 }
 static ssize_t my_read(struct file *f, char __user *buf, size_t len, loff_t *off)
-{//parameters: file pointer, buffer pointer, buffer size, offset pointer
+{//parameters: file pointer, buffer pointer, length of input, offset pointer
   printk(KERN_INFO "Driver Function read()\n");
   return 0;
 }
 static ssize_t my_write(struct file *f, const char __user *buf, size_t len, loff_t *off)
-{//parameters: file pointer, buffer pointer, buffer size, offset pointer
+{//parameters: file pointer, buffer pointer, length of output, offset pointer
   printk(KERN_INFO "Driver Function write()\n");
   return len;
 }
