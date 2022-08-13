@@ -74,7 +74,7 @@ static ssize_t my_write(struct file *f, const char __user *buf, size_t len, loff
   }
   for (i=0; i<len; i++)
   {
-    if (_copy_from_user(&byte, buf + i, 1)) // copies into userspace buffer
+    if (_copy_from_user(&byte, buf + i, 1)) // copies from userspace buffer
       return -EFAULT; // error in userspace memory access
     iowrite8(byte, (u8 *)vram + *off +i); // Function to write (8-bit) to virtual address space
   }
