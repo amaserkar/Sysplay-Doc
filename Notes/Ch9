@@ -24,4 +24,3 @@ The command parameter of ioctl() is a number, but POSIX specifies some
 macros, defined in <linux/ioctl.h> for this purpose. These macros contain
 additional information such as direction of operation, size of argument, etc.
 eg. _IOR for read and _IOW for write
-
