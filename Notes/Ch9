@@ -1,0 +1,27 @@
+ioctl() or input-output control is a versatile hardware-controlling system call.
+It can be used with most driver categories, and for many different operations.
+eg. reading/writing into registers, configuring a device, debugging the driver, etc.
+
+One function achieves different operations by the use of 2 parameters
+(command and command argument) and by using switchcase.
+Additional parameters can be combined with the command argument into a structure,
+whose pointer is passed. The return type of ioctl() is long integer.
+
+The ioctl() function is implemented in the driver, and a function pointer from the 
+struct file_operations is initialised with it. (similar to open, close, etc.)
+It can then be invoked from the userspace using the system call int ioctl()
+which is prototyped in <sys/ioctl.h>
+
+One example of the uses of ioctl() is querying variables in the driver (kernelspace)
+by a userspace application. This is done by implementing ioctl() as a file operation,
+and then calling it in the userspace application functions.
+
+The type definitions for the parameters command and command argument need to be
+shared by the driver and application (in kernelspace and userspace respectively).
+This is done by defining them in a common header file.
+
+The command parameter of ioctl() is a number, but POSIX specifies some 
+macros, defined in <linux/ioctl.h> for this purpose. These macros contain
+additional information such as direction of operation, size of argument, etc.
+eg. _IOR for read and _IOW for write
+
