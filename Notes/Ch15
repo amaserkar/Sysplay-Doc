@@ -1,0 +1,38 @@
+Block device drivers deal with storage devices such as Hard Disks.
+They can be used to create partitions (represented as block device files).
+The partitions can be formatted as filesystems (like vfat), and mounted.
+We can access/store data by reading/writing to the device files.
+
+Device Files, File Ops, Device registration, and Major & minor numbers
+are similar in Block and Character Drivers. However, differences are:
+ 1. Block-oriented; allow random access (not byte-oriented)
+ 2. Used by IO Schedulers (not VFS)
+ 3. Integrated with buffer cache (no direct device access)
+
+Block drivers have 2 parts: the horizontal (abstraction of disk operations
+and the partition tables) and the vertical (providing the files to userspace).
+
+The major number and all associated minor numbers are registered in the
+driver's constructor function, using the block driver registration and
+deregistration functions. (in linux/fs.h and linux/blkdev.h)
+
+Device File operations are prototyped in linux/blkdev.h as the structure
+block_device_operations. They are initialised to the driver's file operations.
+(less complicated than character file ops; no read/write file ops)
+
+Rather than file ops, read/write is done by I/O requests (handled by IO Scheduler).
+Block devices maintain IO Request Queues to store the pending block I/O requests.
+The request queue is represented by struct request_queue, while individual
+requests are represented by struct request. (both in <linux/blkdev.h>)
+
+Read/write request queues, associated locks, and request processing functions,
+along with device file name, first minor, no. of minors, and device size,
+all need to be registered in the driver code; struct gendisk is used.
+ 1. alloc_disk()
+ 2. Initialise struct gendisk fields
+ 3. add_disk()
+To unregister, use del_gendisk and put_disk()
+
+The request queue is initialized by calling blk_init_queue()
+The request processing function is defined as request_fn()
+request_fn() fetches the request from the queue using blk_fetch_request()
