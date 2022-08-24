@@ -1,0 +1,29 @@
+Hard disk is a non-volatile storage device (secondary memory).
+It contains platters on which data is stored. Each platter has a read/write head.
+There are several heads (platters), and each head has several tracks.
+Tracks of the same track number in all heads together form a cylinder.
+Each track has logical sectors, and each sector has a fixed size in bytes.
+
+Total HDD size = (no. of heads)*(tracks/head)*(sectors/track)*(sector size)
+
+This information can be accessed via fdisk -l command.
+It also shows disk partitions.
+
+Partitions are logical divisions of the hard disk, used for organising data.
+Meta Data for the partitions is stored in the partition table.
+The partition table followed by a signature is stored at the end of
+the first sector of the HDD, called the Master Boot Record.
+
+The remaining bytes of the first sector (before the partition table) contain
+the disk signature, and a part of the boot code (which is loaded by the BIOS).
+
+Partition tables are hard-coded to have a fixed no. of partitions.
+An extended partition allows us to create more logical partitions within it.
+
+Logical partitions have metadata stored in a linked-list (flexibility).
+The first sector of the extended partition contains a Boot Record,
+and each logical partition contains a Logical Boot Record.
+The LL head is in the BR and each node is in the LBR.
+Each node of the LL has a partition table entry, and a pointer to the next node.
+
+Tampering with the HDD can affect the boot code, and render the system non-bootable.
