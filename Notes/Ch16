@@ -1,0 +1,25 @@
+The /proc directory contains files with information about system hardware and processes.
+It is a Virtual File System, which allows us to access data structures in the kernel.
+Such files are called kernel windows; eg. /proc/devices, /proc/iomem, etc
+They can be used to get information from kernelspace (eg. device driver) in the userspace.
+
+Custom kernel windows can be created, using the following APIs from linux/proc_fs.h
+ proc_mkdir() for directories
+ proc_create() for files
+ proc_symlink() for symbolic links (similar to shortcuts)
+This is done in the module constructor.
+Removal is done using remove_proc_entry() in the module destructor.
+
+For every /proc entry, a struct proc_dir_entry is created, which contains
+permissions, user ID, group ID, etc. Its fields may be updated as required.
+proc_set_user() is used to update the IDs rather than directly modifying them.
+
+Pointers to file operation functions are stored in the file_operations structure.
+eg. read() and write() functions.
+
+Read function has to be implemented through the seq_file APIs from linux/seq_file.h
+ 1. The file operation read() is initialised to seq_read()
+ 2. The module read function is passed as a parameter to single_open(), which
+    is called in the file operation open().
+
+/proc windows can be used for kernelspace debugging, accessing hardware registers, etc.
