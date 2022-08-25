@@ -7,7 +7,8 @@ static struct class *get_class1(void)
   return p_class1;
 }
 
-// Create global symbols for the pointer and the function
+// Export the pointer and the function as global symbols
+// For use throughout the kernel space.
 EXPORT_SYMBOL(p_class1);
 EXPORT_SYMBOL_GPL(get_class1);
 
