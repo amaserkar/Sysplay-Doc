@@ -1,0 +1,29 @@
+--Global Variables in Modules
+
+By default, nothing from a module is global throughout the kernel.
+Global variables cannot be directly created as static variables,
+because then they cannot be accessed outside that module.
+
+To create global variables, linux/module.h contains macros such as
+EXPORT_SYMBOL(sym). They export a symbol by creating a structure
+and adding it to the kernel symbol table and other tables.
+The symbol can then be accessed throughout the kernel.
+The symbols can be viewed in the /proc/kallsyms kernel window.
+
+The Module.symvers file is generated on compilation of a module,
+and it contains the details of all exported symbols in its directory.
+Other modules that use the global symbols should have this file in
+their build directory.
+
+--Module Parameters
+
+Command line arguments can be passed to a module, during loading.
+They can even be modified later, using sysfs interactions
+ (Sysfs is a virtual filesystem exported by the kernel, similar to /proc.
+  It is used to access kernelspace informatoion from userspace.)
+
+Module parameters are set up using the module_param() macro (defined in
+linux/moduleparam.h) which takes 3 arguments: name, type, and permissions.
+The directory /sys/module/<module name>/parameters contains the list of
+module parameters along with their values.
+The default (declared) value is taken if no parameter is passed.
